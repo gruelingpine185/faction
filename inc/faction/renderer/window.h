@@ -13,6 +13,8 @@ extern "C" {
 #endif // __cplusplus
 f_res f_create_window(f_window** _win, int _w, int _h, const char* _title);
 void f_destroy_window(f_window* _win);
+void f_window_poll_events(void);
+int f_is_window_open(f_window* _win);
 #ifdef __cplusplus
 }
 #endif // __cplusplus

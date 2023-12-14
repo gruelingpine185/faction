@@ -66,3 +66,13 @@ void f_destroy_window(f_window* _win) {
 
     free(_win);
 }
+
+void f_window_poll_events(void) {
+    glfwPollEvents();
+}
+
+int f_is_window_open(f_window* _win) {
+    if(!_win) return 0;
+
+    return (!glfwWindowShouldClose(_win->handle));
+}
