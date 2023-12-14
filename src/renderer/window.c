@@ -77,7 +77,7 @@ int f_is_window_open(f_window* _win) {
     return (!glfwWindowShouldClose(_win->handle));
 }
 
-const char* g_get_window_title(const f_window* _win, f_res* _res) {
+const char* f_get_window_title(const f_window* _win, f_res* _res) {
     if(!_win) {
         if(_res) *_res = F_ERR_PARAMS;
 
@@ -89,7 +89,7 @@ const char* g_get_window_title(const f_window* _win, f_res* _res) {
     return _win->title;
 }
 
-int g_get_window_width(const f_window* _win, f_res* _res) {
+int f_get_window_width(const f_window* _win, f_res* _res) {
     if(!_win) {
         if(_res) *_res = F_ERR_PARAMS;
 
@@ -101,7 +101,7 @@ int g_get_window_width(const f_window* _win, f_res* _res) {
     return _win->w;
 }
 
-int g_get_window_height(const f_window* _win, f_res* _res) {
+int f_get_window_height(const f_window* _win, f_res* _res) {
     if(!_win) {
         if(_res) *_res = F_ERR_PARAMS;
 
