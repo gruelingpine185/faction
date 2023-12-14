@@ -111,5 +111,4 @@ int f_get_window_height(const f_window* _win, f_res* _res) {
     if(_res) *_res = F_SUCCESS;
 
     return _win->h;
-
 }
