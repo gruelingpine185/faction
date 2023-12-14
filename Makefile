@@ -6,7 +6,7 @@ inc_dir := inc/$(project_name)
 src_dir := src
 bin_dir := bin
 vnd_dir := vendor
-code_dirs := renderer
+code_dirs := renderer utils
 bin_dirs := $(code_dirs)
 
 # files
