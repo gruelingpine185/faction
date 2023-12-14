@@ -142,3 +142,25 @@ f_res f_set_darray_at(const f_darray* _arr, size_t _offset, void* _data) {
     _arr->data[_offset] = _data;
     return F_SUCCESS;
 }
+
+size_t f_get_darray_size(const f_darray* _arr, f_res* _res) {
+    if(!_arr) {
+        if(_res) *_res = F_ERR_PARAMS;
+
+        return 0;
+    }
+
+    if(_res) *_res = F_SUCCESS;
+    return _arr->size; 
+}
+
+void** f_get_darray_data(const f_darray* _arr, f_res* _res) {
+    if(!_arr) {
+        if(_res) *_res = F_ERR_PARAMS;
+
+        return 0;
+    }
+
+    if(_res) *_res = F_SUCCESS;
+    return _arr->data; 
+}
