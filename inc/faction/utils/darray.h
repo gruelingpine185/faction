@@ -15,6 +15,7 @@ extern "C" {
 #endif // __cplusplus
 f_res f_create_darray(f_darray** _arr, size_t _soft_cap);
 void f_destroy_darray(f_darray* _arr);
+int f_darray_is_empty(const f_darray* _arr, f_res* _res);
 #ifdef __cplusplus
 }
 #endif // __cplusplus

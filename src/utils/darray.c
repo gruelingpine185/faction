@@ -15,8 +15,22 @@ struct f_darray {
 };
 
 
+int f_darray_is_full(const f_darray* _arr, f_res* _res);
 f_res f_realloc_darray(f_darray* _arr);
 
+
+int f_darray_is_full(const f_darray* _arr, f_res* _res) {
+    if(!_arr) {
+        if(_res) {
+            *_res = F_ERR_PARAMS;
+            return 0;
+        }
+    }
+
+    if(_res) *_res = F_SUCCESS;
+
+    return (_arr->size == _arr->cap);
+}
 
 f_res f_realloc_darray(f_darray* _arr) {
     if(!_arr) return F_ERR_PARAMS;
@@ -61,4 +75,15 @@ void f_destroy_darray(f_darray* _arr) {
     if(_arr->data) free(_arr->data);
 
     free(_arr);
+}
+
+int f_darray_is_empty(const f_darray* _arr, f_res* _res) {
+    if(!_arr) {
+        if(_res) *_res = F_ERR_PARAMS;
+
+        return 0;
+    }
+
+    if(*_res) *_res = F_SUCCESS;
+    return (!_arr->size || !_arr->data || !_arr->cap); 
 }
