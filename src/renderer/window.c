@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdlib.h>
 
 #include <GLFW/glfw3.h>
 
@@ -36,4 +37,32 @@ GLFWwindow* f_glfw_create_window(int* _w, int* _h, const char* _title) {
 void f_glfw_destroy_window(GLFWwindow* _w) {
     glfwDestroyWindow(_w);
     glfwTerminate();
+}
+
+f_res f_create_window(f_window** _win, int _w, int _h, const char* _title) {
+    if(!_win || (_w < 1) || (_h < 1)) return F_ERR_PARAMS;
+
+    f_window* win = (f_window*) malloc(sizeof(*win));
+    if(!win) return F_ERR_MEMORY;
+
+    win->title = (_title)? _title: "";
+    win->w = _w;
+    win->h = _h;
+    win->handle = f_glfw_create_window(&win->w, &win->h, win->title);
+    if(!win->handle) {
+        f_destroy_window(win);
+        return F_ERR_INTERNAL;
+    }
+
+    glfwShowWindow(win->handle);
+    *_win = win;
+    return F_SUCCESS;
+}
+
+void f_destroy_window(f_window* _win) {
+    if(!_win) return;
+
+    if(_win->handle) f_glfw_destroy_window(_win->handle);
+
+    free(_win);
 }
