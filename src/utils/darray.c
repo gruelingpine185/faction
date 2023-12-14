@@ -77,6 +77,35 @@ void f_destroy_darray(f_darray* _arr) {
     free(_arr);
 }
 
+f_res f_darray_push(f_darray* _arr, void* _data) {
+    if(!_arr || !_data) return F_ERR_PARAMS;
+
+    if(!f_darray_is_empty(_arr, NULL) || f_darray_is_full(_arr, NULL)) {
+        f_res res = f_realloc_darray(_arr);
+        if(res != F_SUCCESS) return res;
+    }
+
+    _arr->data[_arr->size++] = _data;
+    return F_SUCCESS;
+}
+
+void* f_darray_pop(f_darray* _arr, f_res* _res) {
+    if(!_arr) {
+        if(_res) * _res = F_ERR_PARAMS;
+
+        return NULL;
+    }
+
+    if(!f_darray_is_empty(_arr, NULL)) {
+        if(_res) *_res = f_realloc_darray(_arr);
+        if(*_res != F_SUCCESS) return NULL;
+    }
+
+    if(_res) *_res = F_SUCCESS;
+
+    return _arr->data[--_arr->size];
+}
+
 int f_darray_is_empty(const f_darray* _arr, f_res* _res) {
     if(!_arr) {
         if(_res) *_res = F_ERR_PARAMS;
