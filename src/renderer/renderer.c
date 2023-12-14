@@ -1,9 +1,11 @@
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #include <volk/volk.h>
 #include <GLFW/glfw3.h>
 
+#include "renderer/window.h"
 #include "renderer/renderer.h"
 #include "utils/darray.h"
 
@@ -75,4 +77,30 @@ f_darray* f_get_vk_req_instance_exts(void) {
     f_darray_push(arr, VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
 #endif // __APPLE__
     return arr;
+}
+
+f_res f_create_renderer(f_renderer** _renderer, f_window* _win) {
+    if(!_renderer || !_win) return F_ERR_PARAMS;
+
+    if(volkInitialize() != VK_SUCCESS) return F_ERR_INTERNAL;
+
+    f_renderer* renderer = (f_renderer*) malloc(sizeof(*renderer));
+    if(!renderer) return F_ERR_MEMORY;
+
+    renderer->instance = f_vk_create_instance(f_get_window_title(_win, NULL));
+    if(!renderer->instance) {
+        free(renderer);
+        return F_ERR_INTERNAL;
+    }
+
+    volkLoadInstance(renderer->instance);
+    return F_SUCCESS;
+}
+
+void f_destroy_renderer(f_renderer* _renderer) {
+    if(!_renderer) return;
+
+    if(_renderer->instance) f_vk_destroy_instance(_renderer->instance);
+
+    free(_renderer);
 }
