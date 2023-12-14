@@ -113,6 +113,32 @@ int f_darray_is_empty(const f_darray* _arr, f_res* _res) {
         return 0;
     }
 
-    if(*_res) *_res = F_SUCCESS;
+    if(_res) *_res = F_SUCCESS;
     return (!_arr->size || !_arr->data || !_arr->cap); 
+}
+
+void* f_get_darray_at(const f_darray* _arr, size_t _offset, f_res* _res) {
+    if(!_arr) {
+        if(_res) *_res = F_ERR_PARAMS;
+
+        return 0;
+    }
+
+    if(f_darray_is_empty(_arr, NULL) || (_offset > _arr->cap)) {
+        if(_res) *_res = F_ERR_BOUNDS;
+
+        return NULL;
+    }
+
+    return _arr->data[_offset];
+}
+
+f_res f_set_darray_at(const f_darray* _arr, size_t _offset, void* _data) {
+    if(!_arr || !_data) return F_ERR_PARAMS;
+    if(f_darray_is_empty(_arr, NULL) || (_offset > _arr->size)) {
+        return F_ERR_BOUNDS;
+    }
+
+    _arr->data[_offset] = _data;
+    return F_SUCCESS;
 }
