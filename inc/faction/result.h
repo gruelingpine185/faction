@@ -2,6 +2,16 @@
 #define FACTION_RESULT_H
 
 
+#ifndef F_CHECK
+    #define F_CHECK(_expr, _res_ptr, _val, _ret)    \
+        if(!(_expr)) {                              \
+            if(_res_ptr) *_res_ptr = _val;          \
+                                                    \
+            return _ret;                            \
+        }
+#endif // F_CHECK
+
+
 typedef enum {
     F_SUCCESS,
     F_ERR_PARAMS,
