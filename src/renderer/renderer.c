@@ -51,10 +51,6 @@ VkInstance f_vk_create_instance(const char* _title) {
     return instance;
 }
 
-void f_vk_destroy_instance(VkInstance _instance) {
-    vkDestroyInstance(_instance, NULL); 
-}
-
 f_darray* f_get_vk_req_instance_exts(void) {
     uint32_t glfw_count = 0;
     const char** glfw_exts = glfwGetRequiredInstanceExtensions(&glfw_count);
@@ -77,6 +73,10 @@ f_darray* f_get_vk_req_instance_exts(void) {
     f_darray_push(arr, VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
 #endif // __APPLE__
     return arr;
+}
+
+void f_vk_destroy_instance(VkInstance _instance) {
+    vkDestroyInstance(_instance, NULL); 
 }
 
 f_res f_create_renderer(f_renderer** _renderer, f_window* _win) {
