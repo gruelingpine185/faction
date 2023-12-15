@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include "renderer/window.h"
+#include "result.h"
 
 
 struct f_window {
@@ -78,36 +79,21 @@ int f_is_window_open(f_window* _win) {
 }
 
 const char* f_get_window_title(const f_window* _win, f_res* _res) {
-    if(!_win) {
-        if(_res) *_res = F_ERR_PARAMS;
-
-        return NULL;
-    }
-
+    F_CHECK(_win, _res, F_ERR_PARAMS, NULL);
     if(_res) *_res = F_SUCCESS;
 
     return _win->title;
 }
 
 int f_get_window_width(const f_window* _win, f_res* _res) {
-    if(!_win) {
-        if(_res) *_res = F_ERR_PARAMS;
-
-        return 0;
-    }
-
+    F_CHECK(_win, _res, F_ERR_PARAMS, 0);
     if(_res) *_res = F_SUCCESS;
 
     return _win->w;
 }
 
 int f_get_window_height(const f_window* _win, f_res* _res) {
-    if(!_win) {
-        if(_res) *_res = F_ERR_PARAMS;
-
-        return 0;
-    }
-
+    F_CHECK(_win, _res, F_ERR_PARAMS, 0);
     if(_res) *_res = F_SUCCESS;
 
     return _win->h;

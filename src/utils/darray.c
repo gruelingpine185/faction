@@ -20,13 +20,7 @@ f_res f_realloc_darray(f_darray* _arr);
 
 
 int f_darray_is_full(const f_darray* _arr, f_res* _res) {
-    if(!_arr) {
-        if(_res) {
-            *_res = F_ERR_PARAMS;
-            return 0;
-        }
-    }
-
+    F_CHECK(_arr, _res, F_ERR_PARAMS, 0);
     if(_res) *_res = F_SUCCESS;
 
     return (_arr->size == _arr->cap);
@@ -90,15 +84,11 @@ f_res f_darray_push(f_darray* _arr, void* _data) {
 }
 
 void* f_darray_pop(f_darray* _arr, f_res* _res) {
-    if(!_arr) {
-        if(_res) * _res = F_ERR_PARAMS;
-
-        return NULL;
-    }
+    F_CHECK(_arr, _res, F_ERR_PARAMS, NULL);
 
     if(!f_darray_is_empty(_arr, NULL)) {
-        if(_res) *_res = f_realloc_darray(_arr);
-        if(*_res != F_SUCCESS) return NULL;
+        f_res res = f_realloc_darray(_arr);
+        F_CHECK(*_res == F_SUCCESS, _res, res, NULL);
     }
 
     if(_res) *_res = F_SUCCESS;
@@ -107,22 +97,14 @@ void* f_darray_pop(f_darray* _arr, f_res* _res) {
 }
 
 int f_darray_is_empty(const f_darray* _arr, f_res* _res) {
-    if(!_arr) {
-        if(_res) *_res = F_ERR_PARAMS;
-
-        return 0;
-    }
+    F_CHECK(_arr, _res, F_ERR_PARAMS, 0);
 
     if(_res) *_res = F_SUCCESS;
     return (!_arr->size || !_arr->data || !_arr->cap); 
 }
 
 void* f_get_darray_at(const f_darray* _arr, size_t _offset, f_res* _res) {
-    if(!_arr) {
-        if(_res) *_res = F_ERR_PARAMS;
-
-        return 0;
-    }
+    F_CHECK(_arr, _res, F_ERR_PARAMS, 0);
 
     if(f_darray_is_empty(_arr, NULL) || (_offset > _arr->cap)) {
         if(_res) *_res = F_ERR_BOUNDS;
@@ -144,22 +126,14 @@ f_res f_set_darray_at(const f_darray* _arr, size_t _offset, void* _data) {
 }
 
 size_t f_get_darray_size(const f_darray* _arr, f_res* _res) {
-    if(!_arr) {
-        if(_res) *_res = F_ERR_PARAMS;
-
-        return 0;
-    }
+    F_CHECK(_arr, _res, F_ERR_PARAMS, 0);
 
     if(_res) *_res = F_SUCCESS;
     return _arr->size; 
 }
 
 void** f_get_darray_data(const f_darray* _arr, f_res* _res) {
-    if(!_arr) {
-        if(_res) *_res = F_ERR_PARAMS;
-
-        return 0;
-    }
+    F_CHECK(_arr, _res, F_ERR_PARAMS, NULL);
 
     if(_res) *_res = F_SUCCESS;
     return _arr->data; 
