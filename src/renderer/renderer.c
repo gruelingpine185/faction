@@ -2,6 +2,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#if !NDEBUG
+    #include <stdio.h>
+#endif // NDEBUG
+
 #include <volk/volk.h>
 #include <GLFW/glfw3.h>
 
@@ -44,6 +48,12 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
     create_info.ppEnabledExtensionNames =
         (const char**) f_get_darray_data(arr, NULL);
 
+#if !NDEBUG
+    printf("Required Extensions:\n");
+    for(size_t i = 0; i < f_get_darray_size(arr, NULL); i++) {
+        printf("    %s\n", (const char*) f_get_darray_at(arr, i, NULL));
+    }
+#endif // NDEBUG
     VkInstance instance = NULL;
     VkResult vk_res = vkCreateInstance(&create_info, NULL, &instance);
     F_CHECK(vk_res == VK_SUCCESS, _res, F_ERR_INTERNAL, NULL);
