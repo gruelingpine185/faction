@@ -74,12 +74,27 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
     f_darray* exts = f_get_vk_req_instance_exts(&res);
     F_CHECK(exts, &res, res, NULL)
 
+#if F_DEBUG_MODE
     f_darray* v_layers = f_get_vk_v_layers(&res);
+    if(!v_layers) {
+        if(_res) * _res = res;
+
+        f_destroy_darray(exts);
+        return NULL;
+    }
+#endif // F_DEBUG_MODE
     VkApplicationInfo app_info = f_vk_create_app_info(_title);
+#if F_DEBUG_MODE
     VkInstanceCreateInfo create_info = f_vk_create_create_info(&app_info,
                                                                 exts,
                                                                 v_layers,
                                                                 &res);
+#else
+    VkInstanceCreateInfo create_info = f_vk_create_create_info(&app_info,
+                                                                exts,
+                                                                NULL,
+                                                                &res);
+#endif // F_DEBUG_MODE
 #if F_DEBUG_MODE
     printf("Required Extensions:\n");
     for(size_t i = 0; i < f_get_darray_size(exts, NULL); i++) {
@@ -96,7 +111,9 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
     F_CHECK(vk_res == VK_SUCCESS, _res, F_ERR_INTERNAL, NULL);
 
     f_destroy_darray(exts);
+#if F_DEBUG_MODE
     f_destroy_darray(v_layers);
+#endif // F_DEBUG_MODE
     return instance;
 }
 
