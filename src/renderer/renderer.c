@@ -48,6 +48,9 @@ VkInstanceCreateInfo f_vk_create_create_info(const VkApplicationInfo* _app_info,
                                                 f_res* _res) {
     VkInstanceCreateInfo create_info = {0};
     F_CHECK(_exts, _res, F_ERR_PARAMS, create_info);
+#if !F_DEBUG_MODE
+    F_CHECK(_layers == NULL, _res, F_ERR_PARAMS, create_info);
+#endif // F_DEBUG_MODE
 
     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 #ifdef __APPLE__
