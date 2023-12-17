@@ -22,6 +22,7 @@ struct f_renderer {
 VkInstance f_vk_create_instance(const char* _title, f_res* _res);
 void f_vk_destroy_instance(VkInstance _instance);
 f_darray* f_get_vk_req_instance_exts(f_res* _res);
+f_darray* f_get_vk_v_layers(f_res* _res);
 
 
 VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
@@ -95,6 +96,22 @@ f_darray* f_get_vk_req_instance_exts(f_res* _res) {
     }
 #endif // __APPLE__
     return arr;
+}
+
+f_darray* f_get_vk_v_layers(f_res* _res) {
+    f_darray* layers = NULL;
+    f_res res = f_create_darray(&layers, 0);
+    F_CHECK(layers, _res, res, NULL)
+
+    res = f_darray_push(layers, "VK_LAYER_KHRONOS_validation");
+    if(res != F_SUCCESS) {
+        if(_res) *_res = res;
+
+        f_destroy_darray(layers);
+        return NULL;
+    }
+
+    return layers;
 }
 
 void f_vk_destroy_instance(VkInstance _instance) {
