@@ -37,6 +37,7 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
     f_darray* arr = f_get_vk_req_instance_exts(&res);
     F_CHECK(arr, &res, res, NULL)
 
+    const char* v_layers[] = {"VK_LAYER_KHRONOS_validation"};
     VkInstanceCreateInfo create_info = {0};
     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 #ifdef __APPLE__
@@ -47,11 +48,18 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
         (uint32_t) f_get_darray_size(arr, NULL);
     create_info.ppEnabledExtensionNames =
         (const char**) f_get_darray_data(arr, NULL);
+    create_info.enabledLayerCount = (sizeof(v_layers) / sizeof(*v_layers));
+    create_info.ppEnabledLayerNames = v_layers; 
 
 #if !NDEBUG
     printf("Required Extensions:\n");
-    for(size_t i = 0; i < f_get_darray_size(arr, NULL); i++) {
+    for(size_t i = 0; i < create_info.enabledExtensionCount; i++) {
         printf("    %s\n", (const char*) f_get_darray_at(arr, i, NULL));
+    }
+
+    printf("Enabled Layers:\n");
+    for(size_t i = 0; i < create_info.enabledLayerCount; i++) {
+        printf("    %s\n", create_info.ppEnabledLayerNames[i]);
     }
 #endif // NDEBUG
     VkInstance instance = NULL;
