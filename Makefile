@@ -20,7 +20,7 @@ c_objects := $(patsubst $(src_dir)/%.c, $(bin_dir)/%.o, \
 c_std = -std=c11
 c_opt = -O2
 c_wrn = -Wall -Wextra -pedantic
-c_def =
+c_def = -DF_DEBUG_MODE=1
 c_inc = -I$(inc_dir) -I$(vnd_dir)
 CC ?= clang
 CFLAGS := $(strip $(c_std) $(c_opt) $(c_wrn) $(c_def) $(c_inc))
