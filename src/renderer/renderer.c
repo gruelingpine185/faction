@@ -21,8 +21,8 @@ struct f_renderer {
 
 VkApplicationInfo f_vk_create_app_info(const char* _title);
 VkInstanceCreateInfo f_vk_create_create_info(const VkApplicationInfo* _app_info,
-                                                f_darray* _exts,
-                                                f_darray* _layers,
+                                                const f_darray* _exts,
+                                                const f_darray* _layers,
                                                 f_res* _res);
 VkInstance f_vk_create_instance(const char* _title, f_res* _res);
 void f_vk_destroy_instance(VkInstance _instance);
@@ -43,8 +43,8 @@ VkApplicationInfo f_vk_create_app_info(const char* _title) {
 }
 
 VkInstanceCreateInfo f_vk_create_create_info(const VkApplicationInfo* _app_info,
-                                                f_darray* _exts,
-                                                f_darray* _layers,
+                                                const f_darray* _exts,
+                                                const f_darray* _layers,
                                                 f_res* _res) {
     VkInstanceCreateInfo create_info = {0};
     F_CHECK(_exts, _res, F_ERR_PARAMS, create_info);
