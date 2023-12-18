@@ -85,6 +85,11 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
         f_destroy_darray(exts);
         return NULL;
     }
+
+    if(!f_vk_check_supported_v_layers(v_layers, &res)) {
+        f_destroy_darray(v_layers);
+        return NULL;
+    }
 #endif // F_DEBUG_MODE
     VkApplicationInfo app_info = f_vk_create_app_info(_title);
 #if F_DEBUG_MODE
