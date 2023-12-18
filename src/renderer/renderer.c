@@ -28,7 +28,7 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res);
 void f_vk_destroy_instance(VkInstance _instance);
 f_darray* f_get_vk_req_instance_exts(f_res* _res);
 f_darray* f_get_vk_v_layers(f_res* _res);
-
+int f_vk_check_supported_v_layers(const f_darray* _layers, f_res* _res);
 
 
 VkApplicationInfo f_vk_create_app_info(const char* _title) {
@@ -161,6 +161,30 @@ f_darray* f_get_vk_v_layers(f_res* _res) {
     }
 
     return layers;
+}
+
+int f_vk_check_supported_v_layers(const f_darray* _layers, f_res* _res) {
+    F_CHECK(_layers, _res, F_ERR_PARAMS, 0);
+
+    uint32_t count;
+    vkEnumerateInstanceLayerProperties(&count, NULL);
+    VkLayerProperties available_layers[count];
+    vkEnumerateInstanceLayerProperties(&count, available_layers);
+    int is_found = 0;
+    for(size_t i = 0; i < f_get_darray_size(_layers, NULL); i++) {
+        is_found = 0;
+        for(uint32_t j = 0; j < count; j++) {
+            if(strcmp(f_get_darray_at(_layers, i, NULL),
+                        available_layers[j].layerName) == 0) {
+                is_found = 1;
+                break;
+            }
+
+            if(!is_found) return 0;
+        }
+    }
+
+    return 1;
 }
 
 void f_vk_destroy_instance(VkInstance _instance) {
