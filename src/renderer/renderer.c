@@ -87,6 +87,8 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
     }
 
     if(!f_vk_check_supported_v_layers(v_layers, &res)) {
+        if(_res) * _res = res;
+
         f_destroy_darray(v_layers);
         return NULL;
     }
