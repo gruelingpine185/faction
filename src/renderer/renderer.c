@@ -186,9 +186,9 @@ int f_vk_check_supported_v_layers(const f_darray* _layers, f_res* _res) {
                 is_found = 1;
                 break;
             }
-
-            if(!is_found) return 0;
         }
+
+        if(!is_found) return 0;
     }
 
     return 1;
