@@ -1,10 +1,10 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
-
-#if !NDEBUG
-    #include <stdio.h>
-#endif // NDEBUG
+#include <string.h>
+#if F_DEBUG_MODE
+#include <stdio.h>
+#endif // F_DEBUG_MODE
 
 #include <volk/volk.h>
 #include <GLFW/glfw3.h>
