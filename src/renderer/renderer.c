@@ -19,8 +19,8 @@ struct f_renderer {
 };
 
 
-VkApplicationInfo f_vk_create_app_info(const char* _title);
-VkInstanceCreateInfo f_vk_create_create_info(const VkApplicationInfo* _app_info,
+VkApplicationInfo f_vk_setup_app_info(const char* _title);
+VkInstanceCreateInfo f_vk_setup_create_info(const VkApplicationInfo* _app_info,
                                                 const f_darray* _exts,
                                                 const f_darray* _layers,
                                                 f_res* _res);
@@ -31,7 +31,7 @@ f_darray* f_get_vk_v_layers(f_res* _res);
 int f_vk_check_supported_v_layers(const f_darray* _layers, f_res* _res);
 
 
-VkApplicationInfo f_vk_create_app_info(const char* _title) {
+VkApplicationInfo f_vk_setup_app_info(const char* _title) {
     VkApplicationInfo app_info = {0};
     app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     app_info.pApplicationName = _title;
@@ -42,7 +42,7 @@ VkApplicationInfo f_vk_create_app_info(const char* _title) {
     return app_info;
 }
 
-VkInstanceCreateInfo f_vk_create_create_info(const VkApplicationInfo* _app_info,
+VkInstanceCreateInfo f_vk_setup_create_info(const VkApplicationInfo* _app_info,
                                                 const f_darray* _exts,
                                                 const f_darray* _layers,
                                                 f_res* _res) {
@@ -93,14 +93,14 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
         return NULL;
     }
 #endif // F_DEBUG_MODE
-    VkApplicationInfo app_info = f_vk_create_app_info(_title);
+    VkApplicationInfo app_info = f_vk_setup_app_info(_title);
 #if F_DEBUG_MODE
-    VkInstanceCreateInfo create_info = f_vk_create_create_info(&app_info,
+    VkInstanceCreateInfo create_info = f_vk_setup_create_info(&app_info,
                                                                 exts,
                                                                 v_layers,
                                                                 &res);
 #else
-    VkInstanceCreateInfo create_info = f_vk_create_create_info(&app_info,
+    VkInstanceCreateInfo create_info = f_vk_setup_create_info(&app_info,
                                                                 exts,
                                                                 NULL,
                                                                 &res);
