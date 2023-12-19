@@ -14,7 +14,7 @@ cd faction
 Faction uses a Makefile for the building process. Just run
 
 ```sh
-Make
+make
 ```
 
 and the resulting executable will be located in `./bin/`.
