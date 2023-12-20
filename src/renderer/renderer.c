@@ -178,6 +178,8 @@ f_darray* f_get_vk_v_layers(f_res* _res) {
         return NULL;
     }
 
+    if(_res) *_res = F_SUCCESS;
+
     return layers;
 }
 
@@ -189,6 +191,7 @@ int f_vk_check_supported_v_layers(const f_darray* _layers, f_res* _res) {
     VkLayerProperties available_layers[count];
     vkEnumerateInstanceLayerProperties(&count, available_layers);
     int is_found = 0;
+
     for(size_t i = 0; i < f_get_darray_size(_layers, NULL); i++) {
         is_found = 0;
         for(uint32_t j = 0; j < count; j++) {
