@@ -208,7 +208,7 @@ f_res f_create_renderer(f_renderer** _renderer, f_window* _win) {
     f_res res;
     renderer->instance = f_vk_create_instance(f_get_window_title(_win, NULL),
                                                 &res);
-    if(!renderer->instance) {
+    if(res != F_SUCCESS) {
         free(renderer);
         return res;
     }
