@@ -9,14 +9,14 @@ int main(void) {
     f_window* win = NULL;
     f_res res = f_create_window(&win, 600, 600, "hello world");
     if(res != F_SUCCESS) {
-       printf("Faction: failed to create window. [%d]\n", res);
+       printf("Faction: Failed to create window.\nReason: \'%s\'.\n", f_res_to_str(res));
         return 1;
     }
 
     f_renderer* renderer = NULL;
     res = f_create_renderer(&renderer, win);
     if(res != F_SUCCESS) {
-       printf("Faction: failed to create renderer. [%d]\n", res);
+       printf("Faction: Failed to create renderer. Reason: \'%s\'.\n", f_res_to_str(res));
         return 1;
     }
 
