@@ -75,7 +75,7 @@ VkInstanceCreateInfo f_vk_setup_create_info(const VkApplicationInfo* _app_info,
 VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
     f_res res;
     f_darray* exts = f_get_vk_req_instance_exts(&res);
-    F_CHECK(exts, &res, res, NULL)
+    F_CHECK(exts, _res, res, NULL)
 
 #if F_DEBUG_MODE
     f_darray* v_layers = f_get_vk_v_layers(&res);
