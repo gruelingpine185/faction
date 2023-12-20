@@ -21,6 +21,7 @@ f_res f_realloc_darray(f_darray* _arr);
 
 int f_darray_is_full(const f_darray* _arr, f_res* _res) {
     F_CHECK(_arr, _res, F_ERR_PARAMS, 0);
+
     if(_res) *_res = F_SUCCESS;
 
     return (_arr->size == _arr->cap);
@@ -100,6 +101,7 @@ int f_darray_is_empty(const f_darray* _arr, f_res* _res) {
     F_CHECK(_arr, _res, F_ERR_PARAMS, 0);
 
     if(_res) *_res = F_SUCCESS;
+
     return (!_arr->size || !_arr->data || !_arr->cap); 
 }
 
@@ -129,6 +131,7 @@ size_t f_get_darray_size(const f_darray* _arr, f_res* _res) {
     F_CHECK(_arr, _res, F_ERR_PARAMS, 0);
 
     if(_res) *_res = F_SUCCESS;
+
     return _arr->size; 
 }
 
@@ -136,5 +139,6 @@ void** f_get_darray_data(const f_darray* _arr, f_res* _res) {
     F_CHECK(_arr, _res, F_ERR_PARAMS, NULL);
 
     if(_res) *_res = F_SUCCESS;
+
     return _arr->data; 
 }
