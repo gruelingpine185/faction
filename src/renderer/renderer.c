@@ -105,6 +105,11 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
                                                                 NULL,
                                                                 &res);
 #endif // F_DEBUG_MODE
+    if(res != F_SUCCESS) {
+        if(_res) *_res = res;
+
+        return NULL;
+    }
 #if F_DEBUG_MODE
     printf("Required Extensions:\n");
     for(size_t i = 0; i < f_get_darray_size(exts, NULL); i++) {
@@ -124,6 +129,8 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
 #if F_DEBUG_MODE
     f_destroy_darray(v_layers);
 #endif // F_DEBUG_MODE
+    if(_res) *_res = F_SUCCESS;
+
     return instance;
 }
 
