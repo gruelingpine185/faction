@@ -139,6 +139,8 @@ f_darray* f_get_vk_req_instance_exts(f_res* _res) {
     for(uint32_t i = 0; i < glfw_count; i++) {
         res = f_darray_push(arr, (void*) glfw_exts[i]);
         if(res != F_SUCCESS) {
+            if(_res) *_res = res;
+
             f_destroy_darray(arr);
             return NULL;
         }
