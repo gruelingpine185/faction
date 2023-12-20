@@ -33,15 +33,6 @@ and the resulting executable will be located in `./bin/`.
 
 ### Using Cmake
 
-Cmake using Ninja:
-
-```cmake
-cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE="Release" -G "Ninja"
-Ninja
-```
-
-or Cmake using Makefiles:
-
 ```cmake
 cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE="Release" -G "Unix Makefiles"
 Make
