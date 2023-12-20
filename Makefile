@@ -11,8 +11,10 @@ bin_dirs := $(code_dirs)
 
 # files
 main := $(src_dir)/main.c
-c_headers := $(foreach path, $(code_dirs), $(wildcard $(inc_dir)/$(path)/*.h))
-c_sources := $(foreach path, $(code_dirs), $(wildcard $(src_dir)/$(path)/*.c))
+c_headers := $(foreach path, $(code_dirs), $(wildcard $(inc_dir)/$(path)/*.h)) 	\
+	$(wildcard $(inc_dir)/*.h)
+c_sources := $(foreach path, $(code_dirs), $(wildcard $(src_dir)/$(path)/*.c)) 	\
+	$(wildcard $(src_dir)/*.c)
 c_objects := $(patsubst $(src_dir)/%.c, $(bin_dir)/%.o, \
 	$(filter-out $(main), $(c_sources)))
 
