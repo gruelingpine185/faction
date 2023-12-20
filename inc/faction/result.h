@@ -20,4 +20,13 @@ typedef enum {
     F_ERR_INTERNAL
 } f_res;
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
+const char* f_res_to_str(f_res _res);
+#ifdef __cplusplus
+}
+#endif // __cplusplus
+
 #endif // FACTION_RESULT_H
