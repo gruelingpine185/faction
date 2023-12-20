@@ -11,7 +11,15 @@ cd faction
 
 ## Building
 
-Faction uses a Makefile for the building process. Just run
+Faction uses a Makefile for the building process. For the first time the project is built, GLFW will also have to be built. Run:
+
+```sh
+make glfw
+make
+```
+
+and the resulting executable will be located in `./bin/`. For any subsequent build, assumming that GLFW source hasn't been modified,
+run:
 
 ```sh
 make

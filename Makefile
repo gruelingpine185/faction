@@ -6,7 +6,7 @@ inc_dir := inc/$(project_name)
 src_dir := src
 bin_dir := bin
 vnd_dir := vendor
-code_dirs := renderer
+code_dirs := renderer utils
 bin_dirs := $(code_dirs)
 
 # files
@@ -20,8 +20,8 @@ c_objects := $(patsubst $(src_dir)/%.c, $(bin_dir)/%.o, \
 c_std = -std=c11
 c_opt = -O2
 c_wrn = -Wall -Wextra -pedantic
-c_def =
-c_inc = -I$(inc_dir)
+c_def = -DF_DEBUG_MODE=1
+c_inc = -I$(inc_dir) -I$(vnd_dir)
 CC ?= clang
 CFLAGS := $(strip $(c_std) $(c_opt) $(c_wrn) $(c_def) $(c_inc))
 
@@ -36,9 +36,8 @@ glfw:
 	cmake -S . -B build
 	@$(MAKE) -C $(vnd_dir)/glfw/build
 
-
-$(project): $(c_objects)
-	$(CC) $(CFLAGS) $^ $(main) -o $@ $(shell pkg-config --static --libs glfw3)
+$(project): $(c_objects) $(vnd_dir)/volk/volk.h
+	$(CC) $(CFLAGS) $(main) $(vnd_dir)/volk/volk.c $(c_objects) -o $@ $(shell pkg-config --static --libs glfw3)
 
 $(bin_dir)/%.o: $(src_dir)/%.c $(wildcard $(inc_dir)/%.h) $(bin_dirs)
 	$(CC) $(CFLAGS) -fpic -c $< -o $@
