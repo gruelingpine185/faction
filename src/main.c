@@ -18,10 +18,10 @@ int main(void) {
     f_renderer* renderer = NULL;
     res = f_create_renderer(&renderer, win);
     if(res != F_SUCCESS) {
-       printf("Faction: Failed to create renderer.\nReason[%d]: \'%s\'.\n",
+        printf("Faction: Failed to create renderer.\nReason[%d]: \'%s\'.\n",
                res,
                f_res_to_str(res));
-       f_destroy_window(win);
+        f_destroy_window(win);
         return 1;
     }
 
