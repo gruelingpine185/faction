@@ -34,6 +34,8 @@ and the resulting executable will be located in `./bin/`.
 ### Using Cmake
 
 ```cmake
+mkdir bin
+cd bin
 cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE="Release" -G "Unix Makefiles"
 Make
 ```
