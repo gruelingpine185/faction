@@ -80,7 +80,7 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
 #if F_DEBUG_MODE
     f_darray* v_layers = f_get_vk_v_layers(&res);
     if(!v_layers) {
-        if(_res) * _res = res;
+        if(_res) *_res = res;
 
         f_destroy_darray(exts);
         return NULL;
