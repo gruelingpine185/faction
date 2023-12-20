@@ -47,6 +47,8 @@ cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE="Release" -G "Unix Makefile
 Make
 ```
 
+As with the purely Makefile approach, the resulting execuable will be located in `bin/`.
+
 ## Contributing
 
 Contributions are welcomed and appreciated.
