@@ -11,7 +11,11 @@ cd faction
 
 ## Building
 
-Faction uses a Makefile for the building process. For the first time the project is built, GLFW will also have to be built. Run:
+Faction provides 2 options for building: using pure Makefiles or Cmake.
+
+### Using Makefiles
+
+For the first time the project is built, GLFW will also have to be built. Run:
 
 ```sh
 make glfw
@@ -26,6 +30,22 @@ make
 ```
 
 and the resulting executable will be located in `./bin/`.
+
+### Using Cmake
+
+Cmake using Ninja:
+
+```cmake
+cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE="Release" -G "Ninja"
+Ninja
+```
+
+or Cmake using Makefiles:
+
+```cmake
+cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE="Release" -G "Unix Makefiles"
+Make
+```
 
 ## Contributing
 
