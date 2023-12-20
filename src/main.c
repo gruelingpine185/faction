@@ -17,6 +17,7 @@ int main(void) {
     res = f_create_renderer(&renderer, win);
     if(res != F_SUCCESS) {
        printf("Faction: Failed to create renderer.\nReason: \'%s\'.\n", f_res_to_str(res));
+       f_destroy_window(win);
         return 1;
     }
 
