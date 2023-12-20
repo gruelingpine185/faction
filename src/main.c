@@ -16,7 +16,7 @@ int main(void) {
     f_renderer* renderer = NULL;
     res = f_create_renderer(&renderer, win);
     if(res != F_SUCCESS) {
-       printf("Faction: Failed to create renderer. Reason: \'%s\'.\n", f_res_to_str(res));
+       printf("Faction: Failed to create renderer.\nReason: \'%s\'.\n", f_res_to_str(res));
         return 1;
     }
 
