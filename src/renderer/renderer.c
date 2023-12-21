@@ -75,12 +75,12 @@ VkInstanceCreateInfo f_vk_setup_create_info(const VkApplicationInfo* _app_info,
 VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
     f_res res;
     f_darray* exts = f_get_vk_req_instance_exts(&res);
-    F_CHECK(exts, &res, res, NULL)
+    F_CHECK(exts, _res, res, NULL)
 
 #if F_DEBUG_MODE
     f_darray* v_layers = f_get_vk_v_layers(&res);
     if(!v_layers) {
-        if(_res) * _res = res;
+        if(_res) *_res = res;
 
         f_destroy_darray(exts);
         return NULL;
@@ -89,6 +89,7 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
     if(!f_vk_check_supported_v_layers(v_layers, &res)) {
         if(_res) *_res = res;
 
+        f_destroy_darray(exts);
         f_destroy_darray(v_layers);
         return NULL;
     }
@@ -105,6 +106,13 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
                                                                 NULL,
                                                                 &res);
 #endif // F_DEBUG_MODE
+    if(res != F_SUCCESS) {
+        if(_res) *_res = res;
+
+        f_destroy_darray(v_layers);
+        f_destroy_darray(exts);
+        return NULL;
+    }
 #if F_DEBUG_MODE
     printf("Required Extensions:\n");
     for(size_t i = 0; i < f_get_darray_size(exts, NULL); i++) {
@@ -124,6 +132,8 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
 #if F_DEBUG_MODE
     f_destroy_darray(v_layers);
 #endif // F_DEBUG_MODE
+    if(_res) *_res = F_SUCCESS;
+
     return instance;
 }
 
@@ -139,6 +149,8 @@ f_darray* f_get_vk_req_instance_exts(f_res* _res) {
     for(uint32_t i = 0; i < glfw_count; i++) {
         res = f_darray_push(arr, (void*) glfw_exts[i]);
         if(res != F_SUCCESS) {
+            if(_res) *_res = res;
+
             f_destroy_darray(arr);
             return NULL;
         }
@@ -166,6 +178,8 @@ f_darray* f_get_vk_v_layers(f_res* _res) {
         return NULL;
     }
 
+    if(_res) *_res = F_SUCCESS;
+
     return layers;
 }
 
@@ -177,6 +191,7 @@ int f_vk_check_supported_v_layers(const f_darray* _layers, f_res* _res) {
     VkLayerProperties available_layers[count];
     vkEnumerateInstanceLayerProperties(&count, available_layers);
     int is_found = 0;
+
     for(size_t i = 0; i < f_get_darray_size(_layers, NULL); i++) {
         is_found = 0;
         for(uint32_t j = 0; j < count; j++) {
@@ -208,7 +223,7 @@ f_res f_create_renderer(f_renderer** _renderer, f_window* _win) {
     f_res res;
     renderer->instance = f_vk_create_instance(f_get_window_title(_win, NULL),
                                                 &res);
-    if(!renderer->instance) {
+    if(res != F_SUCCESS) {
         free(renderer);
         return res;
     }

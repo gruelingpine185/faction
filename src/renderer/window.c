@@ -80,6 +80,7 @@ int f_is_window_open(f_window* _win) {
 
 const char* f_get_window_title(const f_window* _win, f_res* _res) {
     F_CHECK(_win, _res, F_ERR_PARAMS, NULL);
+
     if(_res) *_res = F_SUCCESS;
 
     return _win->title;
@@ -87,6 +88,7 @@ const char* f_get_window_title(const f_window* _win, f_res* _res) {
 
 int f_get_window_width(const f_window* _win, f_res* _res) {
     F_CHECK(_win, _res, F_ERR_PARAMS, 0);
+
     if(_res) *_res = F_SUCCESS;
 
     return _win->w;
@@ -94,6 +96,7 @@ int f_get_window_width(const f_window* _win, f_res* _res) {
 
 int f_get_window_height(const f_window* _win, f_res* _res) {
     F_CHECK(_win, _res, F_ERR_PARAMS, 0);
+
     if(_res) *_res = F_SUCCESS;
 
     return _win->h;
