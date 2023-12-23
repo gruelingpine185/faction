@@ -17,7 +17,8 @@ typedef enum {
     F_ERR_PARAMS,
     F_ERR_BOUNDS,
     F_ERR_MEMORY,
-    F_ERR_INTERNAL
+    F_ERR_INTERNAL,
+    F_ERR_NO_SUPPORTED_GPU
 } f_res;
 
 
