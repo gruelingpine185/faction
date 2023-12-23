@@ -17,6 +17,7 @@ f_res f_create_darray(f_darray** _arr, size_t _soft_cap);
 void f_destroy_darray(f_darray* _arr);
 f_res f_darray_push(f_darray* _arr, void* _data);
 void* f_darray_pop(f_darray* _arr, f_res* _res);
+f_res f_darray_push_list(f_darray* _arr, void** _data, size_t _len);
 int f_darray_is_empty(const f_darray* _arr, f_res* _res);
 void* f_get_darray_at(const f_darray* _arr, size_t _offset, f_res* _res);
 f_res f_set_darray_at(const f_darray* _arr, size_t _offset, void* _data);

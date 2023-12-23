@@ -84,6 +84,19 @@ f_res f_darray_push(f_darray* _arr, void* _data) {
     return F_SUCCESS;
 }
 
+f_res f_darray_push_list(f_darray* _arr, void** _data, size_t _len) {
+    if(!_arr || !_data || !_len) return F_ERR_PARAMS;
+
+    f_res res;
+    for(size_t i = 0; i < _len; i++) {
+        res = f_darray_push(_arr, _data[i]);
+        if(res != F_SUCCESS) return res;
+    }
+
+    return F_SUCCESS;
+
+}
+
 void* f_darray_pop(f_darray* _arr, f_res* _res) {
     F_CHECK(_arr, _res, F_ERR_PARAMS, NULL);
 
