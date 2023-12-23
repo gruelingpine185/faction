@@ -17,6 +17,7 @@
 
 struct f_renderer {
     VkInstance instance;
+    f_darray* devices;
 };
 
 
@@ -24,6 +25,7 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res);
 void f_vk_destroy_instance(VkInstance _instance);
 f_darray* f_get_vk_req_instance_exts(f_res* _res);
 f_darray* f_get_vk_v_layers(f_res* _res);
+f_darray* f_get_vk_p_devices(VkInstance _instance, f_res* _res);
 int f_vk_check_supported_v_layers(const f_darray* _layers, f_res* _res);
 
 
@@ -81,7 +83,11 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
 #endif // F_DEBUG_MODE
     VkInstance instance = NULL;
     VkResult vk_res = vkCreateInstance(&create_info, NULL, &instance);
-    F_CHECK(vk_res == VK_SUCCESS, _res, F_ERR_INTERNAL, NULL);
+    if(vk_res != VK_SUCCESS) {
+        f_destroy_darray(v_layers);
+        f_destroy_darray(exts);
+        return NULL;
+    }
 
     f_destroy_darray(exts);
 #if F_DEBUG_MODE
@@ -101,16 +107,13 @@ f_darray* f_get_vk_req_instance_exts(f_res* _res) {
     f_res res = f_create_darray(&arr, 0);
     F_CHECK(arr, _res, res, NULL)
 
-    for(uint32_t i = 0; i < glfw_count; i++) {
-        res = f_darray_push(arr, (void*) glfw_exts[i]);
-        if(res != F_SUCCESS) {
-            if(_res) *_res = res;
+    res = f_darray_push_list(arr, (void**) glfw_exts, glfw_count);
+    if(res != F_SUCCESS) {
+        if(_res) *_res = res;
 
-            f_destroy_darray(arr);
-            return NULL;
-        }
+        f_destroy_darray(arr);
+        return NULL;
     }
-
 #ifdef __APPLE__
     res = f_darray_push(arr, VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
 #endif // __APPLE__
@@ -136,6 +139,30 @@ f_darray* f_get_vk_v_layers(f_res* _res) {
     if(_res) *_res = F_SUCCESS;
 
     return layers;
+}
+
+f_darray* f_get_vk_p_devices(VkInstance _instance, f_res* _res) {
+    uint32_t count = 0;
+    vkEnumeratePhysicalDevices(_instance, &count, NULL);
+    F_CHECK(count, _res, F_ERR_NO_SUPPORTED_GPU, NULL)
+
+    f_darray* devices = NULL;
+    f_res res = f_create_darray(&devices, count);
+    F_CHECK(res == F_SUCCESS, _res, res, NULL);
+
+    VkPhysicalDevice devices_arr[count];
+    vkEnumeratePhysicalDevices(_instance, &count, devices_arr);
+    res = f_darray_push_list(devices, (void**) devices_arr, count);
+    if(res != F_SUCCESS) {
+        if(_res) *_res = res;
+
+        f_destroy_darray(devices);
+        return NULL;
+    }
+
+    if(_res) *_res = F_SUCCESS;
+
+    return devices;
 }
 
 int f_vk_check_supported_v_layers(const f_darray* _layers, f_res* _res) {
@@ -184,6 +211,12 @@ f_res f_create_renderer(f_renderer** _renderer, f_window* _win) {
     }
 
     volkLoadInstance(renderer->instance);
+    renderer->devices = f_get_vk_p_devices(renderer->instance, &res);
+    if(res != F_SUCCESS) {
+        f_destroy_renderer(renderer);
+        return res;
+    }
+
     return F_SUCCESS;
 }
 
@@ -191,6 +224,7 @@ void f_destroy_renderer(f_renderer* _renderer) {
     if(!_renderer) return;
 
     if(_renderer->instance) f_vk_destroy_instance(_renderer->instance);
+    if(_renderer->devices) f_destroy_darray(_renderer->devices);
 
     free(_renderer);
 }
