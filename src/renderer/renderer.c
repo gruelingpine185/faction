@@ -65,8 +65,9 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
 #endif // F_DEBUG_MODE
     if(res != F_SUCCESS) {
         if(_res) *_res = res;
-
+#if F_DEBUG_MODE
         f_destroy_darray(v_layers);
+#endif // F_DEBUG_MODE
         f_destroy_darray(exts);
         return NULL;
     }
@@ -84,15 +85,17 @@ VkInstance f_vk_create_instance(const char* _title, f_res* _res) {
     VkInstance instance = NULL;
     VkResult vk_res = vkCreateInstance(&create_info, NULL, &instance);
     if(vk_res != VK_SUCCESS) {
+#if F_DEBUG_MODE
         f_destroy_darray(v_layers);
+#endif // F_DEBUG_MODE
         f_destroy_darray(exts);
         return NULL;
     }
 
-    f_destroy_darray(exts);
 #if F_DEBUG_MODE
     f_destroy_darray(v_layers);
 #endif // F_DEBUG_MODE
+    f_destroy_darray(exts);
     if(_res) *_res = F_SUCCESS;
 
     return instance;
