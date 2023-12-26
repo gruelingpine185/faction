@@ -1,7 +1,14 @@
-#include <volk/volk.h>
-
+#include <stddef.h>
+#include <stdint.h>
 #include "utils/darray.h"
-#include "renderer/setup.h"
+#include "renderer/vk_instance.h"
+
+
+VkApplicationInfo f_vk_setup_app_info(const char* _title);
+VkInstanceCreateInfo f_vk_setup_create_info(const VkApplicationInfo* _app_info,
+                                                const f_darray* _exts,
+                                                const f_darray* _layers,
+                                                f_res* _res);
 
 
 VkApplicationInfo f_vk_setup_app_info(const char* _title) {
