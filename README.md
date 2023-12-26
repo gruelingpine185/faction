@@ -11,10 +11,6 @@ cd faction
 
 ## Building
 
-Faction provides 2 options for building: using pure Makefiles or Cmake.
-
-### Using Makefiles
-
 For the first time the project is built, GLFW will also have to be built. Run:
 
 ```sh
@@ -30,17 +26,6 @@ make
 ```
 
 and the resulting executable will be located in `./bin/`.
-
-### Using Cmake
-
-```cmake
-mkdir bin
-cd bin
-cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE="Release" -G "Unix Makefiles"
-Make
-```
-
-As with the purely Makefile approach, the resulting execuable will be located in `bin/`.
 
 ## Contributing
 
