@@ -158,6 +158,12 @@ f_darray* f_get_vk_req_instance_exts(f_res* _res) {
 #ifdef F_DEBUG_MODE
     res = f_darray_push(arr, VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 #endif // F_DEBUG_MODE
+    if(_res) *_res = res;
+    if(res != F_SUCCESS) {
+        f_destroy_darray(arr);
+        return NULL;
+    }
+
     return arr;
 }
 
