@@ -160,20 +160,18 @@ f_darray* f_get_vk_req_instance_exts(f_res* _res) {
 #endif // F_DEBUG_MODE
     return arr;
 }
+
 f_darray* f_get_vk_v_layers(f_res* _res) {
     f_darray* layers = NULL;
     f_res res = f_create_darray(&layers, 0);
     F_CHECK(layers, _res, res, NULL)
 
     res = f_darray_push(layers, "VK_LAYER_KHRONOS_validation");
+    if(_res) *_res = res;
     if(res != F_SUCCESS) {
-        if(_res) *_res = res;
-
         f_destroy_darray(layers);
         return NULL;
     }
-
-    if(_res) *_res = F_SUCCESS;
 
     return layers;
 }
