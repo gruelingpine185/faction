@@ -15,7 +15,8 @@
 
 struct f_renderer {
     VkInstance instance;
-    f_darray* devices;
+    VkPhysicalDevice* devices;
+    uint32_t device_count;
 };
 
 
@@ -36,8 +37,10 @@ f_res f_create_renderer(f_renderer** _renderer, f_window* _win) {
     }
 
     volkLoadInstance(renderer->instance);
-    renderer->devices = f_get_vk_p_devices(renderer->instance, &res);
-    if(res != F_SUCCESS) {
+    renderer->devices = f_get_vk_p_devices(renderer->instance,
+                                            &renderer->device_count,
+                                            &res);
+    if(!renderer->devices) {
         f_destroy_renderer(renderer);
         return res;
     }
@@ -48,8 +51,8 @@ f_res f_create_renderer(f_renderer** _renderer, f_window* _win) {
 void f_destroy_renderer(f_renderer* _renderer) {
     if(!_renderer) return;
 
+    if(_renderer->devices) free(_renderer->devices);
     if(_renderer->instance) f_vk_destroy_instance(_renderer->instance);
-    if(_renderer->devices) f_destroy_darray(_renderer->devices);
 
     free(_renderer);
 }
